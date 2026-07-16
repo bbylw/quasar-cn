@@ -1,0 +1,182 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Workshop Floor palette — warm dark, anodized surfaces */
+  --color-floor: #0d0e11;
+  --color-anodized: #16181d;
+  --color-graphite: #1e2028;
+  --color-border: #262932;
+  --color-border-soft: #1e2028;
+
+  /* Signal colors */
+  --color-teal: #19a7a7;
+  --color-teal-bright: #2bc4c4;
+  --color-amber: #e8b04e;
+  --color-amber-bright: #f0c068;
+
+  /* Text */
+  --color-ink: #d4d4d8;
+  --color-ink-muted: #a1a1aa;
+  --color-ink-dim: #71717a;
+
+  /* Fonts */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-floor);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    color: #f4f4f5;
+  }
+
+  code, pre, .mono {
+    font-family: var(--font-mono);
+  }
+
+  ::selection {
+    background-color: rgba(25, 167, 167, 0.25);
+    color: #f4f4f5;
+  }
+}
+
+@layer components {
+  /* Eyebrow label — structural device */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-ink-dim);
+  }
+
+  .eyebrow-accent {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-teal);
+  }
+
+  /* Hairline divider with label */
+  .hairline {
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Terminal window — workshop terminal */
+  .terminal {
+    background: #0a0b0e;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    background: #111317;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 9999px;
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 50ms);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Spotlight card */
+  .spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      400px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(25, 167, 167, 0.06),
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
+  /* Pipeline connector line */
+  .pipeline-line {
+    background: linear-gradient(90deg, var(--color-border) 0%, var(--color-border) 50%, transparent 100%);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-floor);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
